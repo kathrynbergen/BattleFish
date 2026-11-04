@@ -277,10 +277,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   playerCharacters:
   - {fileID: 1672403086823244274, guid: db94a5a848138904095ea63c7dabc03b, type: 3}
-  - {fileID: 1672403086823244274, guid: db94a5a848138904095ea63c7dabc03b, type: 3}
+  - {fileID: 1672403086823244274, guid: fceae5916c5498f45913eb95886effcd, type: 3}
   enemyCharacters:
-  - {fileID: 1672403086823244274, guid: db94a5a848138904095ea63c7dabc03b, type: 3}
-  - {fileID: 1672403086823244274, guid: db94a5a848138904095ea63c7dabc03b, type: 3}
+  - {fileID: 1672403086823244274, guid: a8cec6a1798d48e45b642e38af256a14, type: 3}
+  - {fileID: 1672403086823244274, guid: cd8dfe809779bec488bcde10432774b3, type: 3}
 --- !u!4 &133877716
 Transform:
   m_ObjectHideFlags: 0
