@@ -7,12 +7,35 @@ public class CombatManager : MonoBehaviour
     public List<CharacterStats> playerCharacters;
     public List<CharacterStats> enemyCharacters;
 
+    [SerializeField] private float centerOffset = 2f;
+    [SerializeField] private float characterSpacing = 1.5f;
+
     private Coroutine combatTurnTimer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SetupCombat();
         StartCombatSequence(); 
+    }
+
+    private void SetupCombat()
+    {
+        InstantiateTeam(playerCharacters, -1f);
+        InstantiateTeam(enemyCharacters, 1f);
+    }
+
+    private void InstantiateTeam(List<CharacterStats> characters, float side)
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            CharacterStats characterPrefab = characters[i];
+            if (characterPrefab == null) continue;
+
+            Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
+            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity, transform);
+            characters[i] = character;
+        }
     }
 
     private void StartCombatSequence()
@@ -83,7 +106,29 @@ public class CombatManager : MonoBehaviour
     private void ResolveDeath(CharacterStats deadCharacter)
     {
         print(deadCharacter.name + " dead");
-        playerCharacters.Remove(deadCharacter);
-        enemyCharacters.Remove(deadCharacter);
+        // remove from game screen
+        Destroy(deadCharacter.gameObject);
+
+        // Remove and re-space only the team this character belonged to.
+        if (playerCharacters.Contains(deadCharacter))
+        {
+            playerCharacters.Remove(deadCharacter);
+            RepositionTeam(playerCharacters, -1f);
+        }
+        else if (enemyCharacters.Contains(deadCharacter))
+        {
+            enemyCharacters.Remove(deadCharacter);
+            RepositionTeam(enemyCharacters, 1f);
+        }
+    }
+
+    private void RepositionTeam(List<CharacterStats> characters, float side)
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            if (characters[i] == null) continue;
+
+            characters[i].transform.position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
+        }
     }
 }

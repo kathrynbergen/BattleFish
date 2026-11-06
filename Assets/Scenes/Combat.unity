@@ -281,6 +281,8 @@ MonoBehaviour:
   enemyCharacters:
   - {fileID: 1672403086823244274, guid: a8cec6a1798d48e45b642e38af256a14, type: 3}
   - {fileID: 1672403086823244274, guid: cd8dfe809779bec488bcde10432774b3, type: 3}
+  centerOffset: 2
+  characterSpacing: 1.5
 --- !u!4 &133877716
 Transform:
   m_ObjectHideFlags: 0
