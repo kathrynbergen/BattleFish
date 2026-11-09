@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
+    [SerializeField] private Canvas combatCanvas;
     public List<CharacterStats> playerCharacters;
     public List<CharacterStats> enemyCharacters;
 
@@ -33,7 +34,7 @@ public class CombatManager : MonoBehaviour
             if (characterPrefab == null) continue;
 
             Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
-            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity, transform);
+            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity, combatCanvas.transform);
             characters[i] = character;
         }
     }
