@@ -1,7 +1,22 @@
+using TMPro;
 using UnityEngine;
 
 public class StatDisplay : MonoBehaviour
 {
-    // add methods to update the display on the canvas script is attached to
-    // methods will be called by other classes when needed to be updated (ex. taking damage)
+    private CharacterStats character;
+    private TMP_Text[] statDisplayText;
+
+    private void Awake()
+    {
+        character = GetComponentInParent<CharacterStats>();
+        statDisplayText = GetComponentsInChildren<TMP_Text>(true);
+    }
+
+    private void LateUpdate()
+    {
+        if (character == null || character.data == null || statDisplayText.Length < 2) return;
+
+        statDisplayText[0].text = $"{character.Health}/{character.data.health}";
+        statDisplayText[1].text = $"{character.Damage}";
+    }
 }

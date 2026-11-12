@@ -33,7 +33,9 @@ public class CombatManager : MonoBehaviour
             if (characterPrefab == null) continue;
 
             Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
-            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity, combatCanvas.transform);
+            // Characters and their stat canvases live in world space, outside the overlay UI canvas.
+            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity);
+            character.Initialize(character.data);
             characters[i] = character;
         }
     }
