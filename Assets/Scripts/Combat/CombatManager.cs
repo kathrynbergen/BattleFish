@@ -17,7 +17,6 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
         SetupCombat();
-        StartCombatSequence(); 
     }
 
     private void SetupCombat()
@@ -39,7 +38,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    private void StartCombatSequence()
+    public void StartCombatSequence()
     {
         if (combatTurnTimer != null) return;
         foreach (CharacterStats character in playerCharacters)
