@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TestPlayerCharacter 1
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
   characterName: TestPlayer1
-  damage: 2
-  health: 3
+  damage: 3
+  health: 2

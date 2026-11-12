@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17c3edc00705046b7804f0eedf782c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  data: {fileID: 11400000, guid: 168c07c32c046ef46a1a63cad54aa4d8, type: 2}
+  data: {fileID: 11400000, guid: 02e37a3c2fa48bc4ba9040103a9cab08, type: 2}
   Health: 0
 --- !u!1001 &4797201857959921299
 PrefabInstance:
