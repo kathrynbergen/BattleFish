@@ -14,9 +14,10 @@ public class StatDisplay : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (character == null || character.data == null || statDisplayText.Length < 2) return;
+        if (character == null || character.data == null || statDisplayText.Length < 3) return;
 
         statDisplayText[0].text = $"{character.Health}/{character.data.health}";
         statDisplayText[1].text = $"{character.Damage}";
+        statDisplayText[2].text = character.characterName;
     }
 }
