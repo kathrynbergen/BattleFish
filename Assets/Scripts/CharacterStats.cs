@@ -6,6 +6,7 @@ public class CharacterStats : MonoBehaviour
 
     public int Damage { get; private set; }
     public int Health;
+    public Type Type;
 
     // sets initial values based on their data
     public void Initialize(CharacterData characterData)
@@ -13,5 +14,6 @@ public class CharacterStats : MonoBehaviour
         data = characterData;
         Damage = data.damage;
         Health = data.health;
+        Type = data.type;
     }
 }
