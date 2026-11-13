@@ -48,8 +48,7 @@ public class ShopManager : MonoBehaviour
 
         ShopInventory.Instance.AddMonster(m_selectedMonster.characterName);
 
-        messageText.text = "Purchased " +
-                           m_selectedMonster.characterName + "!";
+        messageText.text = "Purchased " + m_selectedMonster.characterName + "!";
 
         UpdateCoins();
     }
