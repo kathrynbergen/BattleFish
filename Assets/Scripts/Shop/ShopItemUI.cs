@@ -15,10 +15,15 @@ public class ShopItemUI : MonoBehaviour
     {
         m_button = GetComponent<Button>();
         m_shopManager = FindFirstObjectByType<ShopManager>();
-
-        if (characterData == null || m_shopManager == null)
+        
+        if (characterData == null)
         {
-            Debug.LogError("Missing CharacterData or ShopManager!");
+            return;
+        }
+
+        if (m_shopManager == null)
+        {
+            Debug.LogError("Missing ShopManager!");
             return;
         }
 
