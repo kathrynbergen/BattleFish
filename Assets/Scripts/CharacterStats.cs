@@ -4,14 +4,18 @@ public class CharacterStats : MonoBehaviour
 {
     public CharacterData data;
 
+    public string characterName;
     public int Damage { get; private set; }
     public int Health;
+    public Type Type;
 
     // sets initial values based on their data
     public void Initialize(CharacterData characterData)
     {
         data = characterData;
+        characterName = data.characterName;
         Damage = data.damage;
         Health = data.health;
+        Type = data.type;
     }
 }

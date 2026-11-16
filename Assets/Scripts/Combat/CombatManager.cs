@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
+    [SerializeField] private Canvas combatCanvas;
     public List<CharacterStats> playerCharacters;
     public List<CharacterStats> enemyCharacters;
 
@@ -16,7 +17,6 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
         SetupCombat();
-        StartCombatSequence(); 
     }
 
     private void SetupCombat()
@@ -33,12 +33,14 @@ public class CombatManager : MonoBehaviour
             if (characterPrefab == null) continue;
 
             Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
-            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity, transform);
+            // Characters and their stat canvases live in world space, outside the overlay UI canvas.
+            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity);
+            character.Initialize(character.data);
             characters[i] = character;
         }
     }
 
-    private void StartCombatSequence()
+    public void StartCombatSequence()
     {
         if (combatTurnTimer != null) return;
         foreach (CharacterStats character in playerCharacters)
