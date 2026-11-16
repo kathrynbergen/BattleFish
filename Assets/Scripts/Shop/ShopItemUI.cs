@@ -45,4 +45,9 @@ public class ShopItemUI : MonoBehaviour
     {
         Debug.Log("Button is working");
     }
+
+    public void OnStartCombatClicked()
+    {
+        GameManager.Instance.StartCombat();
+    }
 }

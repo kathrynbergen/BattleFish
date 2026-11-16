@@ -19,12 +19,8 @@ public class CombatManager : MonoBehaviour
     private Coroutine combatTurnTimer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        SetupCombat();
-    }
 
-    private void SetupCombat()
+    public void SetupCombat()
     {
         InstantiateTeam(playerCharacters, activePlayerCharacters, -1f);
         InstantiateTeam(enemyCharacters, activeEnemyCharacters, 1f);

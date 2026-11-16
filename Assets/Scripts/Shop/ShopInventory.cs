@@ -17,7 +17,7 @@ public class ShopInventory : MonoBehaviour
     public int CurrentLevel => currentLevel;
 
     [Header("Purchased Monsters")]
-    public List<string> OwnedMonsters = new List<string>();
+    public List<CharacterData> OwnedMonsters = new List<CharacterData>();
 
     [Header("Purchased Abilities")]
     public List<string> OwnedAbilities = new List<string>();
@@ -64,9 +64,12 @@ public class ShopInventory : MonoBehaviour
     }
 
     // Adds a purchased monster
-    public void AddMonster(string monsterName)
+    public void AddMonster(CharacterData monster)
     {
-        OwnedMonsters.Add(monsterName);
+        if (monster != null)
+        {
+            OwnedMonsters.Add(monster);
+        }
     }
 
     // Adds a purchased environmental ability
