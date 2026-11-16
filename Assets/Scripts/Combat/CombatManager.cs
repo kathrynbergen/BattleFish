@@ -5,8 +5,13 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     [SerializeField] private Canvas combatCanvas;
-    public List<CharacterStats> playerCharacters;
-    public List<CharacterStats> enemyCharacters;
+    // holds prefabs to spawn
+    [SerializeField] private List<CharacterStats> playerCharacters = new List<CharacterStats>();
+    [SerializeField] private List<CharacterStats> enemyCharacters = new List<CharacterStats>();
+
+    // holds actual character spawned prefab instances
+    private List<CharacterStats> activePlayerCharacters = new List<CharacterStats>();
+    private List<CharacterStats> activeEnemyCharacters = new List<CharacterStats>();
 
     [SerializeField] private float centerOffset = 2f;
     [SerializeField] private float characterSpacing = 1.5f;
@@ -21,47 +26,44 @@ public class CombatManager : MonoBehaviour
 
     private void SetupCombat()
     {
-        InstantiateTeam(playerCharacters, -1f);
-        InstantiateTeam(enemyCharacters, 1f);
+        InstantiateTeam(playerCharacters, activePlayerCharacters, -1f);
+        InstantiateTeam(enemyCharacters, activeEnemyCharacters, 1f);
     }
 
-    private void InstantiateTeam(List<CharacterStats> characters, float side)
+    private void InstantiateTeam(List<CharacterStats> prefabs, List<CharacterStats> activeCharacters, float side)
     {
-        for (int i = 0; i < characters.Count; i++)
+        activeCharacters.Clear();
+        for (int i = 0; i < prefabs.Count; i++)
         {
-            CharacterStats characterPrefab = characters[i];
+            CharacterStats characterPrefab = prefabs[i];
             if (characterPrefab == null) continue;
 
             Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
-            // Characters and their stat canvases live in world space, outside the overlay UI canvas.
             CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity);
+            if (character.data == null)
+            {
+                Debug.LogError($"Character prefab {characterPrefab.name} has no CharacterData assigned.", characterPrefab);
+                Destroy(character.gameObject);
+                continue;
+            }
             character.Initialize(character.data);
-            characters[i] = character;
+            activeCharacters.Add(character);
         }
     }
 
     public void StartCombatSequence()
     {
         if (combatTurnTimer != null) return;
-        foreach (CharacterStats character in playerCharacters)
-        {
-            character.Initialize(character.data);
-        }
-        foreach (CharacterStats character in enemyCharacters)
-        {
-            character.Initialize(character.data);
-        }
-        
         combatTurnTimer = StartCoroutine(CombatCycleTimer());
     }
 
     IEnumerator CombatCycleTimer()
     {
-        while (playerCharacters.Count > 0 && enemyCharacters.Count > 0)
+        while (activePlayerCharacters.Count > 0 && activeEnemyCharacters.Count > 0)
         {
             yield return new WaitForSeconds(1f);
-            RunTurnActions(playerCharacters[0], true);
-            RunTurnActions(enemyCharacters[0], false);
+            RunTurnActions(activePlayerCharacters[0], true);
+            RunTurnActions(activeEnemyCharacters[0], false);
             
             CheckForDeath();
         }
@@ -76,22 +78,22 @@ public class CombatManager : MonoBehaviour
         CharacterAction activeCharacterAction = activeCharacter.GetComponent<CharacterAction>();
         if (activeCharacterAction == null) return;
 
-        if (isPlayer) activeCharacterAction.OnTurnAction(playerCharacters, enemyCharacters);
-        else activeCharacterAction.OnTurnAction(enemyCharacters, playerCharacters);
+        if (isPlayer) activeCharacterAction.OnTurnAction(activePlayerCharacters, activeEnemyCharacters);
+        else activeCharacterAction.OnTurnAction(activeEnemyCharacters, activePlayerCharacters);
     }
 
     private void CheckForDeath()
     {
         List<CharacterStats> dyingCharacters = new List<CharacterStats>();
         // find all characters who are dying this round
-        foreach (CharacterStats character in playerCharacters)
+        foreach (CharacterStats character in activePlayerCharacters)
         {
             if (character != null && character.Health <= 0)
             {
                 dyingCharacters.Add(character);
             }
         }
-        foreach (CharacterStats character in enemyCharacters)
+        foreach (CharacterStats character in activeEnemyCharacters)
         {
             if (character != null && character.Health <= 0)
             {
@@ -112,15 +114,15 @@ public class CombatManager : MonoBehaviour
         Destroy(deadCharacter.gameObject);
 
         // Remove and re-space only the team this character belonged to.
-        if (playerCharacters.Contains(deadCharacter))
+        if (activePlayerCharacters.Contains(deadCharacter))
         {
-            playerCharacters.Remove(deadCharacter);
-            RepositionTeam(playerCharacters, -1f);
+            activePlayerCharacters.Remove(deadCharacter);
+            RepositionTeam(activePlayerCharacters, -1f);
         }
-        else if (enemyCharacters.Contains(deadCharacter))
+        else if (activeEnemyCharacters.Contains(deadCharacter))
         {
-            enemyCharacters.Remove(deadCharacter);
-            RepositionTeam(enemyCharacters, 1f);
+            activeEnemyCharacters.Remove(deadCharacter);
+            RepositionTeam(activeEnemyCharacters, 1f);
         }
     }
 

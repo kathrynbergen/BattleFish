@@ -6,7 +6,7 @@ public class CharacterAction : MonoBehaviour
 {
     protected CharacterStats myStats;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         myStats = GetComponent<CharacterStats>();
     }
@@ -23,6 +23,23 @@ public class CharacterAction : MonoBehaviour
 
     protected int CalculateDamage(CharacterStats target)
     {
+        if (myStats == null)
+        {
+            myStats = GetComponent<CharacterStats>();
+        }
+
+        if (myStats == null)
+        {
+            Debug.LogError("no characterstats component found");
+            return 0;
+        }
+
+        if (target == null)
+        {
+            Debug.LogError("target is null");
+            return 0;
+        }
+
         return (int)(myStats.Damage*CalculateTypeAdvantageMult(target));
     }
     protected float CalculateTypeAdvantageMult(CharacterStats target)
