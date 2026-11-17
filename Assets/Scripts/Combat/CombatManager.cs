@@ -5,16 +5,14 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     [SerializeField] private Canvas combatCanvas;
-    // holds prefabs to spawn
-    [SerializeField] private List<CharacterStats> playerCharacters = new List<CharacterStats>();
-    [SerializeField] private List<CharacterStats> enemyCharacters = new List<CharacterStats>();
+    [SerializeField] private List<CharacterData> enemyCharacters = new List<CharacterData>();
 
     // holds actual character spawned prefab instances
     private List<CharacterStats> activePlayerCharacters = new List<CharacterStats>();
     private List<CharacterStats> activeEnemyCharacters = new List<CharacterStats>();
 
     [SerializeField] private float centerOffset = 2f;
-    [SerializeField] private float characterSpacing = 1.5f;
+    private float characterSpacing = 2f;
 
     private Coroutine combatTurnTimer;
     
@@ -22,28 +20,57 @@ public class CombatManager : MonoBehaviour
 
     public void SetupCombat()
     {
-        InstantiateTeam(playerCharacters, activePlayerCharacters, -1f);
-        InstantiateTeam(enemyCharacters, activeEnemyCharacters, 1f);
+        InstantiatePlayerTeam(ShopInventory.Instance.OwnedMonsters);
+        InstantiateEnemyTeam(enemyCharacters);
     }
 
-    private void InstantiateTeam(List<CharacterStats> prefabs, List<CharacterStats> activeCharacters, float side)
+    private void InstantiatePlayerTeam(List<CharacterData> monsters)
     {
-        activeCharacters.Clear();
-        for (int i = 0; i < prefabs.Count; i++)
+        activePlayerCharacters.Clear();
+        for (int i = 0; i < monsters.Count; i++)
         {
-            CharacterStats characterPrefab = prefabs[i];
-            if (characterPrefab == null) continue;
-
-            Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
-            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity);
-            if (character.data == null)
+            CharacterData monster = monsters[i];
+            if (monster == null) continue;
+            if (monster.prefab == null)
             {
-                Debug.LogError($"Character prefab {characterPrefab.name} has no CharacterData assigned.", characterPrefab);
-                Destroy(character.gameObject);
+                Debug.LogError($"Character data {monster.name} has no combat prefab assigned.", monster);
                 continue;
             }
-            character.Initialize(character.data);
-            activeCharacters.Add(character);
+
+            Vector3 position = transform.position + Vector3.right * -1f * (centerOffset + i * characterSpacing);
+            CharacterStats character = Instantiate(monster.prefab, position, Quaternion.identity);
+            character.Initialize(monster);
+            FlipCharacterSprites(character);
+            activePlayerCharacters.Add(character);
+        }
+    }
+
+    private void FlipCharacterSprites(CharacterStats character)
+    {
+        SpriteRenderer[] spriteRenderers = character.GetComponentsInChildren<SpriteRenderer>(true);
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.flipX = true;
+        }
+    }
+
+    private void InstantiateEnemyTeam(List<CharacterData> monsters)
+    {
+        activeEnemyCharacters.Clear();
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            CharacterData monster = monsters[i];
+            if (monster == null) continue;
+            if (monster.prefab == null)
+            {
+                Debug.LogError($"Character data {monster.name} has no combat prefab assigned.", monster);
+                continue;
+            }
+
+            Vector3 position = transform.position + Vector3.right * (centerOffset + i * characterSpacing);
+            CharacterStats character = Instantiate(monster.prefab, position, Quaternion.identity);
+            character.Initialize(monster);
+            activeEnemyCharacters.Add(character);
         }
     }
 

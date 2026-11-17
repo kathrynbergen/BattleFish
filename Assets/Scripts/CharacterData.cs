@@ -9,6 +9,9 @@ public class CharacterData : ScriptableObject
     public int health;
     public Type type;
 
+    [Header("Combat Prefab")]
+    public CharacterStats prefab;
+
     [Header("Shop Information")] 
     public Sprite characterSprite;
     public int price;
