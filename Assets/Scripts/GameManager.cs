@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         shopCanvas.enabled = true;
         combatCanvas.enabled = false;
         if (combatResultCanvas != null) combatResultCanvas.enabled = false;
+        combatManager.AddWaveCharacters(currentWave);
     }
 
     public void StartCombat()
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
         }
 
         currentWave++;
+        combatManager.AddWaveCharacters(currentWave);
         if (shopCanvas != null) shopCanvas.enabled = true;
         if (shopManager != null) shopManager.UpdateCoins();
     }

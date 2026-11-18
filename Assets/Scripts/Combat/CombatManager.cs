@@ -5,13 +5,19 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     [SerializeField] private Canvas combatCanvas;
-    [SerializeField] private List<CharacterData> enemyCharacters = new List<CharacterData>();
+    private List<CharacterData> enemyCharacters = new List<CharacterData>();
+    
+    [SerializeField] private List<CharacterData> enemyWave1Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave2Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave3Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave4Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave5Characters = new List<CharacterData>();
 
     // holds actual character spawned prefab instances
     private List<CharacterStats> activePlayerCharacters = new List<CharacterStats>();
     private List<CharacterStats> activeEnemyCharacters = new List<CharacterStats>();
 
-    [SerializeField] private float centerOffset = 2f;
+    private float centerOffset = 2f;
     private float characterSpacing = 2f;
 
     private Coroutine combatTurnTimer;
@@ -39,6 +45,31 @@ public class CombatManager : MonoBehaviour
             combatUI.UpdateWaveUI(currentWave);
         }
         else Debug.LogError("CombatManager could not find a CombatUI component under its combat canvas.", this);
+    }
+
+    public void AddWaveCharacters(int wave)
+    {
+        switch (wave)
+        {
+            case 1:
+                enemyCharacters.AddRange(enemyWave1Characters);
+                break;
+            case 2:
+                enemyCharacters.AddRange(enemyWave2Characters);
+                break;
+            case 3:
+                enemyCharacters.AddRange(enemyWave3Characters);
+                break;
+            case 4:
+                enemyCharacters.AddRange(enemyWave4Characters);
+                break;
+            case 5:
+                enemyCharacters.AddRange(enemyWave5Characters);
+                break;
+            default:
+                Debug.Log("wave count greater than available characters to add");
+                break;
+        }
     }
 
     private static void ClearCharacters(List<CharacterStats> characters)
