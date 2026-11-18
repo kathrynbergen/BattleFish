@@ -873,6 +873,7 @@ MonoBehaviour:
   combatCanvas: {fileID: 154251256}
   combatResultCanvas: {fileID: 371181972}
   combatResultUI: {fileID: 1203804588}
+  shopManager: {fileID: 1799067538}
 --- !u!4 &228080465
 Transform:
   m_ObjectHideFlags: 0

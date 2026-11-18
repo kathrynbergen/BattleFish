@@ -20,6 +20,11 @@ public class ShopManager : MonoBehaviour
         UpdateCoins();
     }
 
+    void Update()
+    {
+        UpdateCoins();
+    }
+
     public void SelectMonster(CharacterData monster)
     {
         m_selectedMonster = monster;
@@ -53,8 +58,11 @@ public class ShopManager : MonoBehaviour
         UpdateCoins();
     }
 
-    void UpdateCoins()
+    public void UpdateCoins()
     {
-        coinText.text = "Coins: " + ShopInventory.Instance.Coins;
+        if (coinText != null && ShopInventory.Instance != null)
+        {
+            coinText.text = "Coins: " + ShopInventory.Instance.Coins;
+        }
     }
 }

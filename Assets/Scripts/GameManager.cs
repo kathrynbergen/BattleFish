@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Canvas combatCanvas;
     [SerializeField] private Canvas combatResultCanvas;
     [SerializeField] private CombatResultUI combatResultUI;
+    [SerializeField] private ShopManager shopManager;
 
     private int currentWave = 1;
     private bool lastCombatWon;
@@ -49,6 +50,10 @@ public class GameManager : MonoBehaviour
     public void EndCombat(bool playerWon)
     {
         lastCombatWon = playerWon;
+        if (playerWon && ShopInventory.Instance != null)
+        {
+            ShopInventory.Instance.AddCoins(500);
+        }
         if (combatCanvas != null) combatCanvas.enabled = false;
         if (combatResultCanvas != null) combatResultCanvas.enabled = true;
         if (combatResultUI != null)
@@ -71,8 +76,15 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if (currentWave >= 5)
+        {
+            SceneManager.LoadScene("Menu");
+            return;
+        }
+
         currentWave++;
         if (shopCanvas != null) shopCanvas.enabled = true;
+        if (shopManager != null) shopManager.UpdateCoins();
     }
 
     private void OnDestroy()

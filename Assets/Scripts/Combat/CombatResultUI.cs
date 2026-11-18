@@ -29,6 +29,8 @@ public class CombatResultUI : MonoBehaviour
             return;
         }
 
-        resultText.text = playerWon ? $"You won Wave {wave}!" : $"You lost Wave {wave}.";
+        resultText.text = playerWon
+            ? (wave >= 5 ? "You win level 1!" : $"You won Wave {wave}!")
+            : $"You lost Wave {wave}.";
     }
 }
