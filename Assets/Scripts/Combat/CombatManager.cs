@@ -15,13 +15,40 @@ public class CombatManager : MonoBehaviour
     private float characterSpacing = 2f;
 
     private Coroutine combatTurnTimer;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public void SetupCombat()
+    private CombatUI combatUI = null;
+
+    private void Awake()
     {
+        if (combatCanvas != null)
+        {
+            combatUI = combatCanvas.GetComponentInChildren<CombatUI>(true);
+        }
+    }
+
+    public void SetupCombat(int currentWave)
+    {
+        ClearCharacters(activePlayerCharacters);
+        ClearCharacters(activeEnemyCharacters);
         InstantiatePlayerTeam(ShopInventory.Instance.OwnedMonsters);
         InstantiateEnemyTeam(enemyCharacters);
+        
+        if (combatCanvas != null && combatUI == null) combatUI = combatCanvas.GetComponent<CombatUI>();
+        if (combatUI != null)
+        {
+            combatUI.UpdateWaveUI(currentWave);
+        }
+        else Debug.LogError("CombatManager could not find a CombatUI component under its combat canvas.", this);
+    }
+
+    private static void ClearCharacters(List<CharacterStats> characters)
+    {
+        foreach (CharacterStats character in characters)
+        {
+            if (character != null) Destroy(character.gameObject);
+        }
+
+        characters.Clear();
     }
 
     private void InstantiatePlayerTeam(List<CharacterData> monsters)
@@ -90,7 +117,14 @@ public class CombatManager : MonoBehaviour
             
             CheckForDeath();
         }
-        print("combat cycle done");
+
+        yield return new WaitForSeconds(1f); // wait for 1 second before ending the round so players can see outcome
+        bool playerWon = activePlayerCharacters.Count > 0 && activeEnemyCharacters.Count == 0; // check if player won
+        combatTurnTimer = null;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.EndCombat(playerWon);
+        }
     }
 
     // runs character's CharacterAction

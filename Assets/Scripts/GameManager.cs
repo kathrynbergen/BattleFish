@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // note: gamemanager is a singleton
 public class GameManager : MonoBehaviour
@@ -10,6 +10,13 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private Canvas shopCanvas;
     [SerializeField] private Canvas combatCanvas;
+    [SerializeField] private Canvas combatResultCanvas;
+    [SerializeField] private CombatResultUI combatResultUI;
+
+    private int currentWave = 1;
+    private bool lastCombatWon;
+
+    public int CurrentWave => currentWave;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -19,14 +26,13 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         shopCanvas.enabled = true;
         combatCanvas.enabled = false;
+        if (combatResultCanvas != null) combatResultCanvas.enabled = false;
     }
 
     public void StartCombat()
@@ -37,6 +43,40 @@ public class GameManager : MonoBehaviour
         // turn on combat scene
         combatCanvas.enabled = true;
         // tell combatmanager to setup next combat wave
-        combatManager.SetupCombat();
+        combatManager.SetupCombat(currentWave);
+    }
+
+    public void EndCombat(bool playerWon)
+    {
+        lastCombatWon = playerWon;
+        if (combatCanvas != null) combatCanvas.enabled = false;
+        if (combatResultCanvas != null) combatResultCanvas.enabled = true;
+        if (combatResultUI != null)
+        {
+            combatResultUI.ShowResult(playerWon, currentWave);
+        }
+        else
+        {
+            Debug.Log("combatResultUI is null");
+        }
+    }
+
+    public void ContinueAfterCombat()
+    {
+        if (combatResultCanvas != null) combatResultCanvas.enabled = false;
+
+        if (!lastCombatWon)
+        {
+            SceneManager.LoadScene("Menu");
+            return;
+        }
+
+        currentWave++;
+        if (shopCanvas != null) shopCanvas.enabled = true;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 }
