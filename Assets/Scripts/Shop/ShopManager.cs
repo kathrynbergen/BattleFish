@@ -104,8 +104,11 @@ public class ShopManager : MonoBehaviour
         UpdateCoins();
     }
 
-    void UpdateCoins()
+    public void UpdateCoins()
     {
-        coinText.text = "Coins: " + ShopInventory.Instance.Coins;
+        if (coinText != null && ShopInventory.Instance != null)
+        {
+            coinText.text = "Coins: " + ShopInventory.Instance.Coins;
+        }
     }
 }
