@@ -15,6 +15,8 @@ MonoBehaviour:
   characterName: Bat
   damage: 6
   health: 20
+  type: 0
+  prefab: {fileID: 1672403086823244274, guid: 6f78e77d41454d94e97a7263438753e6, type: 3}
   characterSprite: {fileID: 21300000, guid: 777fc796e966fd04284969ffeef88103, type: 3}
   price: 400
   description: A small flying creature from the wastelands

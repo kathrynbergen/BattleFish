@@ -5,45 +5,130 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     [SerializeField] private Canvas combatCanvas;
-    // holds prefabs to spawn
-    [SerializeField] private List<CharacterStats> playerCharacters = new List<CharacterStats>();
-    [SerializeField] private List<CharacterStats> enemyCharacters = new List<CharacterStats>();
+    private List<CharacterData> enemyCharacters = new List<CharacterData>();
+    
+    [SerializeField] private List<CharacterData> enemyWave1Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave2Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave3Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave4Characters = new List<CharacterData>();
+    [SerializeField] private List<CharacterData> enemyWave5Characters = new List<CharacterData>();
 
     // holds actual character spawned prefab instances
     private List<CharacterStats> activePlayerCharacters = new List<CharacterStats>();
     private List<CharacterStats> activeEnemyCharacters = new List<CharacterStats>();
 
-    [SerializeField] private float centerOffset = 2f;
-    [SerializeField] private float characterSpacing = 1.5f;
+    private float centerOffset = 2f;
+    private float characterSpacing = 2f;
 
     private Coroutine combatTurnTimer;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public void SetupCombat()
+    private CombatUI combatUI = null;
+
+    private void Awake()
     {
-        InstantiateTeam(playerCharacters, activePlayerCharacters, -1f);
-        InstantiateTeam(enemyCharacters, activeEnemyCharacters, 1f);
+        if (combatCanvas != null)
+        {
+            combatUI = combatCanvas.GetComponentInChildren<CombatUI>(true);
+        }
     }
 
-    private void InstantiateTeam(List<CharacterStats> prefabs, List<CharacterStats> activeCharacters, float side)
+    public void SetupCombat(int currentWave)
     {
-        activeCharacters.Clear();
-        for (int i = 0; i < prefabs.Count; i++)
+        ClearCharacters(activePlayerCharacters);
+        ClearCharacters(activeEnemyCharacters);
+        InstantiatePlayerTeam(ShopInventory.Instance.OwnedMonsters);
+        InstantiateEnemyTeam(enemyCharacters);
+        
+        if (combatCanvas != null && combatUI == null) combatUI = combatCanvas.GetComponent<CombatUI>();
+        if (combatUI != null)
         {
-            CharacterStats characterPrefab = prefabs[i];
-            if (characterPrefab == null) continue;
+            combatUI.UpdateWaveUI(currentWave);
+        }
+        else Debug.LogError("CombatManager could not find a CombatUI component under its combat canvas.", this);
+    }
 
-            Vector3 position = transform.position + Vector3.right * side * (centerOffset + i * characterSpacing);
-            CharacterStats character = Instantiate(characterPrefab, position, Quaternion.identity);
-            if (character.data == null)
+    public void AddWaveCharacters(int wave)
+    {
+        switch (wave)
+        {
+            case 1:
+                enemyCharacters.AddRange(enemyWave1Characters);
+                break;
+            case 2:
+                enemyCharacters.AddRange(enemyWave2Characters);
+                break;
+            case 3:
+                enemyCharacters.AddRange(enemyWave3Characters);
+                break;
+            case 4:
+                enemyCharacters.AddRange(enemyWave4Characters);
+                break;
+            case 5:
+                enemyCharacters.AddRange(enemyWave5Characters);
+                break;
+            default:
+                Debug.Log("wave count greater than available characters to add");
+                break;
+        }
+    }
+
+    private static void ClearCharacters(List<CharacterStats> characters)
+    {
+        foreach (CharacterStats character in characters)
+        {
+            if (character != null) Destroy(character.gameObject);
+        }
+
+        characters.Clear();
+    }
+
+    private void InstantiatePlayerTeam(List<CharacterData> monsters)
+    {
+        activePlayerCharacters.Clear();
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            CharacterData monster = monsters[i];
+            if (monster == null) continue;
+            if (monster.prefab == null)
             {
-                Debug.LogError($"Character prefab {characterPrefab.name} has no CharacterData assigned.", characterPrefab);
-                Destroy(character.gameObject);
+                Debug.LogError($"Character data {monster.name} has no combat prefab assigned.", monster);
                 continue;
             }
-            character.Initialize(character.data);
-            activeCharacters.Add(character);
+
+            Vector3 position = transform.position + Vector3.right * -1f * (centerOffset + i * characterSpacing);
+            CharacterStats character = Instantiate(monster.prefab, position, Quaternion.identity);
+            character.Initialize(monster);
+            FlipCharacterSprites(character);
+            activePlayerCharacters.Add(character);
+        }
+    }
+
+    private void FlipCharacterSprites(CharacterStats character)
+    {
+        SpriteRenderer[] spriteRenderers = character.GetComponentsInChildren<SpriteRenderer>(true);
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.flipX = true;
+        }
+    }
+
+    private void InstantiateEnemyTeam(List<CharacterData> monsters)
+    {
+        activeEnemyCharacters.Clear();
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            CharacterData monster = monsters[i];
+            if (monster == null) continue;
+            if (monster.prefab == null)
+            {
+                Debug.LogError($"Character data {monster.name} has no combat prefab assigned.", monster);
+                continue;
+            }
+
+            Vector3 position = transform.position + Vector3.right * (centerOffset + i * characterSpacing);
+            CharacterStats character = Instantiate(monster.prefab, position, Quaternion.identity);
+            character.Initialize(monster);
+            activeEnemyCharacters.Add(character);
         }
     }
 
@@ -63,7 +148,14 @@ public class CombatManager : MonoBehaviour
             
             CheckForDeath();
         }
-        print("combat cycle done");
+
+        yield return new WaitForSeconds(1f); // wait for 1 second before ending the round so players can see outcome
+        bool playerWon = activePlayerCharacters.Count > 0 && activeEnemyCharacters.Count == 0; // check if player won
+        combatTurnTimer = null;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.EndCombat(playerWon);
+        }
     }
 
     // runs character's CharacterAction
