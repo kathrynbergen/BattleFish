@@ -17,10 +17,12 @@ public class ShopInventory : MonoBehaviour
     public int CurrentLevel => currentLevel;
 
     [Header("Purchased Monsters")]
-    public List<CharacterData> OwnedMonsters = new List<CharacterData>();
+    public List<CharacterData> OwnedMonsters =
+        new List<CharacterData>();
 
     [Header("Purchased Abilities")]
-    public List<string> OwnedAbilities = new List<string>();
+    public List<AbilityData> OwnedAbilities =
+        new List<AbilityData>();
 
     void Awake()
     {
@@ -36,78 +38,69 @@ public class ShopInventory : MonoBehaviour
         }
     }
 
-    // Checks whether the player can afford an item
     public bool CanAfford(int price)
     {
         return price >= 0 && Coins >= price;
     }
 
-    // Removes coins when purchasing an item
     public bool SpendCoins(int amount)
     {
         if (!CanAfford(amount))
-        {
             return false;
-        }
 
         Coins -= amount;
         return true;
     }
 
-    // Adds coins after winning a battle
     public void AddCoins(int amount)
     {
         if (amount > 0)
-        {
             Coins += amount;
-        }
     }
 
-    // Adds a purchased monster
     public void AddMonster(CharacterData monster)
     {
         if (monster != null)
-        {
             OwnedMonsters.Add(monster);
-        }
     }
 
-    // Adds a purchased environmental ability
-    public void AddAbility(string abilityName)
+    public void AddAbility(AbilityData ability)
     {
-        if (currentLevel < 2)
-        {
-            Debug.Log("Abilities are locked in Level 1!");
-            return;
-        }
-
-        OwnedAbilities.Add(abilityName);
+        if (ability != null && AbilitiesUnlocked())
+            OwnedAbilities.Add(ability);
     }
 
-    // Checks if abilities are unlocked
     public bool AbilitiesUnlocked()
     {
         return currentLevel >= 2;
     }
 
-    // Changes the current level
     public void SetLevel(int level)
     {
         currentLevel = level;
     }
 
-    // Uses one purchased ability
+    public bool TryUseAbility(AbilityData ability)
+    {
+        if (!AbilitiesUnlocked() || ability == null)
+            return false;
+
+        return OwnedAbilities.Remove(ability);
+    }
+
     public bool TryUseAbility(string abilityName)
     {
         if (!AbilitiesUnlocked())
-        {
             return false;
-        }
 
-        if (OwnedAbilities.Contains(abilityName))
+        for (int i = 0; i < OwnedAbilities.Count; i++)
         {
-            OwnedAbilities.Remove(abilityName);
-            return true;
+            if (OwnedAbilities[i] != null &&
+                OwnedAbilities[i].abilityName == abilityName)
+            {
+                OwnedAbilities.RemoveAt(i);
+                return true;
+            }
         }
 
         return false;

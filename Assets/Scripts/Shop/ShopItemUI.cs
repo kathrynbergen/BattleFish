@@ -8,6 +8,9 @@ public class ShopItemUI : MonoBehaviour
     [Header("Monster Information")]
     public CharacterData characterData;
 
+    [Header("Ability Information")]
+    public AbilityData abilityData;
+
     private Button m_button;
     private ShopManager m_shopManager;
 
@@ -15,11 +18,6 @@ public class ShopItemUI : MonoBehaviour
     {
         m_button = GetComponent<Button>();
         m_shopManager = FindFirstObjectByType<ShopManager>();
-        
-        if (characterData == null)
-        {
-            return;
-        }
 
         if (m_shopManager == null)
         {
@@ -27,18 +25,40 @@ public class ShopItemUI : MonoBehaviour
             return;
         }
 
-        if (characterData.characterSprite != null)
+        if (characterData != null)
         {
-            GetComponent<Image>().sprite = characterData.characterSprite;
-        }
+            if (characterData.characterSprite != null)
+            {
+                GetComponent<Image>().sprite =
+                    characterData.characterSprite;
+            }
 
-        m_button.onClick.AddListener(SelectMonster);
+            m_button.onClick.AddListener(SelectMonster);
+        }
+        else if (abilityData != null)
+        {
+            if (abilityData.abilitySprite != null)
+            {
+                GetComponent<Image>().sprite =
+                    abilityData.abilitySprite;
+            }
+
+            m_button.onClick.AddListener(SelectAbility);
+        }
+        else
+        {
+            Debug.LogError("Missing CharacterData or AbilityData!");
+        }
     }
 
     void SelectMonster()
     {
-        Debug.Log("Rat was clicked");
         m_shopManager.SelectMonster(characterData);
+    }
+
+    void SelectAbility()
+    {
+        m_shopManager.SelectAbility(abilityData);
     }
 
     public void TestClick()

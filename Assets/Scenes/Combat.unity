@@ -497,6 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemUI
   characterData: {fileID: 0}
+  abilityData: {fileID: 0}
 --- !u!114 &135457423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1018,8 +1019,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3230467447144234941, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Name
-      value: Tornado_Ability
+      value: Lighting_Ability
       objectReference: {fileID: 0}
+    - target: {fileID: 3449161380472624777, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
+      propertyPath: abilityData
+      value: 
+      objectReference: {fileID: 11400000, guid: 83078bcf5b7c24ecc968fe0b41fae08c, type: 2}
     - target: {fileID: 3449161380472624777, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: characterData
       value: 
@@ -1050,11 +1055,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1106,12 +1111,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 7f576dd81d82a4fe78a4510194157ddc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1289,7 +1294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopInventory
   startingCoins: 1000
-  currentLevel: 2
+  currentLevel: 1
   OwnedMonsters: []
   OwnedAbilities: []
 --- !u!4 &661392385
@@ -1779,6 +1784,10 @@ PrefabInstance:
       value: Meteor_Ability
       objectReference: {fileID: 0}
     - target: {fileID: 3449161380472624777, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
+      propertyPath: abilityData
+      value: 
+      objectReference: {fileID: 11400000, guid: dbd09ac22faff42fcb42ccd94f96e2d6, type: 2}
+    - target: {fileID: 3449161380472624777, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: characterData
       value: 
       objectReference: {fileID: 0}
@@ -1808,11 +1817,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1865,18 +1874,22 @@ PrefabInstance:
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 21300000, guid: a396a6bd94b084cdaaffc64862e39f44, type: 3}
+    - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Color.b
-      value: 0.05882353
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Color.g
-      value: 0.08362873
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Color.r
-      value: 0.972549
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3099,6 +3112,10 @@ PrefabInstance:
       value: Blizzard_Ability
       objectReference: {fileID: 0}
     - target: {fileID: 3449161380472624777, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
+      propertyPath: abilityData
+      value: 
+      objectReference: {fileID: 11400000, guid: d37dd472ffdf045728f96408b4f83d84, type: 2}
+    - target: {fileID: 3449161380472624777, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: characterData
       value: 
       objectReference: {fileID: 0}
@@ -3128,11 +3145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7287885174194122766, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3185,18 +3202,18 @@ PrefabInstance:
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 160c168784563468abc9d6e8a4113976, type: 3}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Color.b
-      value: 0.9254902
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Color.g
-      value: 0.8202562
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8869510587200681678, guid: ef93a2995b41a46fc9c4026d4b73d516, type: 3}
       propertyPath: m_Color.r
-      value: 0.090196095
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
