@@ -8,11 +8,16 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CombatManager combatManager;
     
+    [Header("Canvases")]
     [SerializeField] private Canvas shopCanvas;
+    [SerializeField] private Canvas teamBuilderCanvas;
     [SerializeField] private Canvas combatCanvas;
     [SerializeField] private Canvas combatResultCanvas;
+    
+    [Header("UI Manager")]
     [SerializeField] private CombatResultUI combatResultUI;
     [SerializeField] private ShopManager shopManager;
+    [SerializeField] private TeamBuilderManager teamBuilderManager;
 
     private int currentWave = 1;
     private bool lastCombatWon;
@@ -32,14 +37,43 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         shopCanvas.enabled = true;
+        teamBuilderCanvas.enabled = false;
         combatCanvas.enabled = false;
+        
         if (combatResultCanvas != null) combatResultCanvas.enabled = false;
         combatManager.AddWaveCharacters(currentWave);
     }
 
-    public void StartCombat()
+    // Shop's next button -> goes to teambuilderCanvas
+    public void GoToTeamBuilder()
+    {
+        Debug.Log("opening team builder");
+        shopCanvas.enabled = false;
+        teamBuilderCanvas.enabled = true;
+
+        if (teamBuilderManager != null)
+        {
+            Debug.Log("loading monster inventory");
+            teamBuilderManager.LoadOwnedMonsters();
+        }
+        else
+        {
+            Debug.LogError("Team Builder Manager is not assigned");
+        }
+    }
+    
+    // teambuilderCanvas's back button
+    public void BackToShop()
+    {
+        teamBuilderCanvas.enabled = false;
+        shopCanvas.enabled = true;
+    }
+    
+    public void StartCombat() // starts from teambuilderCanvas now
     {
         print("start combat");
+        // turn off teambuilder
+        teamBuilderCanvas.enabled = false;
         // turn off shop
         shopCanvas.enabled = false;
         // turn on combat scene
@@ -85,6 +119,10 @@ public class GameManager : MonoBehaviour
 
         currentWave++;
         combatManager.AddWaveCharacters(currentWave);
+        
+        teamBuilderCanvas.enabled = false;
+        combatCanvas.enabled = false;
+        
         if (shopCanvas != null) shopCanvas.enabled = true;
         if (shopManager != null) shopManager.UpdateCoins();
     }
