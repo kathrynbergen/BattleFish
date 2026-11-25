@@ -149,6 +149,7 @@ public class CombatManager : MonoBehaviour
 
         while (activePlayerCharacters.Count > 0 && activeEnemyCharacters.Count > 0)
         {
+            yield return new WaitForSeconds(1f);
             RunTurnActions(activePlayerCharacters[0], true);
             RunTurnActions(activeEnemyCharacters[0], false);
 
