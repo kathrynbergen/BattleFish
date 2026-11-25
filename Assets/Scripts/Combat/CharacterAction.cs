@@ -18,7 +18,7 @@ public class CharacterAction : MonoBehaviour
 
     protected void DealDamage(CharacterStats target, int damageAmount)
     {
-        target.Health = Mathf.Max(0, target.Health - damageAmount);
+        target.TakeDamage(damageAmount);
     }
 
     protected int CalculateDamage(CharacterStats target)
