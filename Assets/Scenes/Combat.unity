@@ -424,11 +424,11 @@ MonoBehaviour:
   combatCanvas: {fileID: 154251256}
   enemyWave1Characters:
   - {fileID: 11400000, guid: 0c48ccfa79f104373871dc60a80c373d, type: 2}
-  enemyWave2Characters:
-  - {fileID: 11400000, guid: e36455ad74d094e03adb0f9f75ab7d05, type: 2}
+  enemyWave2Characters: []
   enemyWave3Characters:
   - {fileID: 11400000, guid: 0b6071637c02a45168b7eaa16e668e20, type: 2}
-  enemyWave4Characters: []
+  enemyWave4Characters:
+  - {fileID: 11400000, guid: e36455ad74d094e03adb0f9f75ab7d05, type: 2}
   enemyWave5Characters:
   - {fileID: 11400000, guid: 0c48ccfa79f104373871dc60a80c373d, type: 2}
 --- !u!4 &133877716
