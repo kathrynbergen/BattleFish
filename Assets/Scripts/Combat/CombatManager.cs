@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour
@@ -19,6 +20,9 @@ public class CombatManager : MonoBehaviour
 
     private float centerOffset = 2f;
     private float characterSpacing = 2f;
+    private const float RoundDuration = 1f;
+    private const float AttackDistance = 0.6f;
+    private const float AttackMoveDuration = 0.17f;
 
     private Coroutine combatTurnTimer;
 
@@ -140,13 +144,24 @@ public class CombatManager : MonoBehaviour
 
     IEnumerator CombatCycleTimer()
     {
+        // Keep the existing pause before the first round
+        yield return new WaitForSeconds(RoundDuration);
+
         while (activePlayerCharacters.Count > 0 && activeEnemyCharacters.Count > 0)
         {
-            yield return new WaitForSeconds(1f);
             RunTurnActions(activePlayerCharacters[0], true);
             RunTurnActions(activeEnemyCharacters[0], false);
-            
+
+            // Let the attack motion finish before removing defeated characters
+            float deathCheckDelay = AttackMoveDuration * 2f + 0.05f;
+            yield return new WaitForSeconds(deathCheckDelay);
             CheckForDeath();
+
+            if (activePlayerCharacters.Count == 0 || activeEnemyCharacters.Count == 0)
+                break;
+
+            // Actions remain one second apart, with the animation finishing first
+            yield return new WaitForSeconds(RoundDuration - deathCheckDelay);
         }
 
         yield return new WaitForSeconds(1f); // wait for 1 second before ending the round so players can see outcome
@@ -166,8 +181,20 @@ public class CombatManager : MonoBehaviour
         CharacterAction activeCharacterAction = activeCharacter.GetComponent<CharacterAction>();
         if (activeCharacterAction == null) return;
 
+        AnimateAttack(activeCharacter, isPlayer);
+
         if (isPlayer) activeCharacterAction.OnTurnAction(activePlayerCharacters, activeEnemyCharacters);
         else activeCharacterAction.OnTurnAction(activeEnemyCharacters, activePlayerCharacters);
+    }
+
+    private void AnimateAttack(CharacterStats attacker, bool isPlayer)
+    {
+        Transform attackerTransform = attacker.transform;
+        Vector3 startPosition = attackerTransform.position;
+        Vector3 attackPosition = startPosition + Vector3.right * (isPlayer ? AttackDistance : -AttackDistance);
+
+        DOTween.Sequence().Append(attackerTransform.DOMove(attackPosition, AttackMoveDuration).SetEase(Ease.OutQuad))
+            .Append(attackerTransform.DOMove(startPosition, AttackMoveDuration).SetEase(Ease.InQuad)).SetLink(attacker.gameObject);
     }
 
     private void CheckForDeath()
