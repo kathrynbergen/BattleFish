@@ -32,11 +32,11 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void SetupCombat(int currentWave)
+    public void SetupCombat(int currentWave, List<CharacterData> playerLineup)
     {
         ClearCharacters(activePlayerCharacters);
         ClearCharacters(activeEnemyCharacters);
-        InstantiatePlayerTeam(ShopInventory.Instance.OwnedMonsters);
+        InstantiatePlayerTeam(playerLineup);
         InstantiateEnemyTeam(enemyCharacters);
         
         if (combatCanvas != null && combatUI == null) combatUI = combatCanvas.GetComponent<CombatUI>();

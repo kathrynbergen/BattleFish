@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         // turn on combat scene
         combatCanvas.enabled = true;
         // tell combatmanager to setup next combat wave
-        combatManager.SetupCombat(currentWave);
+        combatManager.SetupCombat(currentWave, teamBuilderManager.GetLineup());
     }
 
     public void EndCombat(bool playerWon)

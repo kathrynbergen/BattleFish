@@ -179,6 +179,19 @@ public class TeamBuilderManager : MonoBehaviour
         ShowMessage("Team cleared!");
     }
 
+    public List<CharacterData> GetLineup()
+    {
+        List<CharacterData> lineup = new List<CharacterData>();
+        for (int i = teamSlots.Length - 1; i >= 0; i--) // starts at "right" (end) since right is the front of the lineup and is spawned in first
+        {
+            CharacterData monster = teamSlots[i];
+            if (monster != null)
+                lineup.Add(monster);
+        }
+
+        return lineup;
+    }
+
     public void RefreshSlots()
     {
         for (int i = 0; i < slotUI.Length; i++)
