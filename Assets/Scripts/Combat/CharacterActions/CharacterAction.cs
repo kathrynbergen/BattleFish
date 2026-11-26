@@ -66,4 +66,5 @@ public class CharacterAction : MonoBehaviour
 
         return 1; // no effect
     }
+
 }

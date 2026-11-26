@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3292327668432222456}
   - component: {fileID: 62672384847130833}
-  - component: {fileID: -4226049184031244941}
   - component: {fileID: 1672403086823244274}
   - component: {fileID: -1240838980963554702}
+  - component: {fileID: 5642624752396116987}
   m_Layer: 0
   m_Name: testbat
   m_TagString: Untagged
@@ -95,18 +95,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4226049184031244941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5606020133750628497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c775a3fb5831abd4f9d3162c80a01fa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestCharacterAction
 --- !u!114 &1672403086823244274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +133,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5642624752396116987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5606020133750628497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7dc957625c500546aabe36fba48b5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BatCharacterAction
 --- !u!1001 &4797201857959921299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,18 +186,6 @@ PrefabInstance:
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.004
       objectReference: {fileID: 0}
@@ -208,6 +196,18 @@ PrefabInstance:
     - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.004
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1322793357498776331, guid: 3d1d8a8d51cc1274eb4750e23eea1ce5, type: 3}
       propertyPath: m_LocalRotation.w

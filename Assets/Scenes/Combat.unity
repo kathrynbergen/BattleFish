@@ -750,9 +750,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   combatCanvas: {fileID: 154251256}
   enemyWave1Characters:
-  - {fileID: 11400000, guid: 0c48ccfa79f104373871dc60a80c373d, type: 2}
-  enemyWave2Characters:
   - {fileID: 11400000, guid: e36455ad74d094e03adb0f9f75ab7d05, type: 2}
+  enemyWave2Characters:
+  - {fileID: 11400000, guid: 0c48ccfa79f104373871dc60a80c373d, type: 2}
   enemyWave3Characters:
   - {fileID: 11400000, guid: 0b6071637c02a45168b7eaa16e668e20, type: 2}
   enemyWave4Characters: []
