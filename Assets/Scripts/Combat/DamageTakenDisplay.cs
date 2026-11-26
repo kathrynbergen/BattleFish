@@ -12,6 +12,7 @@ public class DamageTakenDisplay : MonoBehaviour
     private Vector2 startPosition;
     private Color startColor;
     private Coroutine damageAnimation;
+    private int displayedDamage;
 
     private void Awake()
     {
@@ -35,14 +36,22 @@ public class DamageTakenDisplay : MonoBehaviour
 
     public void ShowDamage(int amount)
     {
-        if (damageAnimation != null) StopCoroutine(damageAnimation);
+        if (damageAnimation != null)
+        {
+            StopCoroutine(damageAnimation);
+            displayedDamage += amount;
+        }
+        else
+        {
+            displayedDamage = amount;
+        }
 
-        damageAnimation = StartCoroutine(AnimateDamage(amount));
+        damageAnimation = StartCoroutine(AnimateDamage());
     }
 
-    private IEnumerator AnimateDamage(int amount)
+    private IEnumerator AnimateDamage()
     {
-        text.text = "-" + amount;
+        text.text = "-" + displayedDamage;
         rectTransform.anchoredPosition = startPosition;
         SetAlpha(1f);
 

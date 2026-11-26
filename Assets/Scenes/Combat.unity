@@ -755,7 +755,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c48ccfa79f104373871dc60a80c373d, type: 2}
   enemyWave3Characters:
   - {fileID: 11400000, guid: 0b6071637c02a45168b7eaa16e668e20, type: 2}
-  enemyWave4Characters: []
+  enemyWave4Characters:
+  - {fileID: 11400000, guid: e36455ad74d094e03adb0f9f75ab7d05, type: 2}
   enemyWave5Characters:
   - {fileID: 11400000, guid: 0c48ccfa79f104373871dc60a80c373d, type: 2}
 --- !u!4 &133877716
@@ -4012,7 +4013,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Won Wave X
+  m_text: You won wave X!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8cef09aa29ff1c14dbd7daa55f3b65b8, type: 2}
   m_sharedMaterial: {fileID: 7879094869597537839, guid: 8cef09aa29ff1c14dbd7daa55f3b65b8, type: 2}
@@ -4078,7 +4079,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -204.00244, y: -60.247253, z: -178.76819, w: -154.62793}
+  m_margin: {x: -260.90186, y: -60.247253, z: -237.22412, w: -154.62793}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
