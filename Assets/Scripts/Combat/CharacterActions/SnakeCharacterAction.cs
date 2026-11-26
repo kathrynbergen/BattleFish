@@ -21,7 +21,7 @@ public class SnakeCharacterAction : CharacterAction
             }
 
             CharacterStats luckyTarget = enemies[^1]; // last enemy in list
-            int luckyDamage = CalculateDamage(luckyTarget);
+            int luckyDamage = CalculateDamage(luckyTarget) / 2;
             DealDamage(luckyTarget, luckyDamage);
         }
     }

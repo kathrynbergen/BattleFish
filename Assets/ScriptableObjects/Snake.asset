@@ -19,4 +19,5 @@ MonoBehaviour:
   prefab: {fileID: 1672403086823244274, guid: cd8dfe809779bec488bcde10432774b3, type: 3}
   characterSprite: {fileID: 170971407, guid: 5f626d02499906643a696a859ba97677, type: 3}
   price: 500
-  description: A pale looking creature from the poisonous swamp
+  description: A pale looking creature from the poisonous swamp. Attacks the character
+    in front of them. Has a 10% chance to deal half damage to the enemy in the back.

@@ -19,4 +19,5 @@ MonoBehaviour:
   prefab: {fileID: 1672403086823244274, guid: a8cec6a1798d48e45b642e38af256a14, type: 3}
   characterSprite: {fileID: -427482547, guid: daa29e601a16fb148bae828c5fadf69a, type: 3}
   price: 600
-  description: A small sewer moster that attacks enemies.
+  description: A small sewer moster that attacks enemies. Splits its damage between
+    the first two enemies.
