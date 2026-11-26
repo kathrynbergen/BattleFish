@@ -2460,7 +2460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b4f7d71058b4a66858f5a73467a840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopInventory
-  startingCoins: 1000
+  startingCoins: 500
   currentLevel: 1
   OwnedMonsters: []
   OwnedAbilities: []
